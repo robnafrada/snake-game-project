@@ -35,13 +35,16 @@ class App extends Component {
       // CALLING FUNCTIONALITY THAT CHANGES STATE ON KEY PRESS (WILL CHANGE TO VOICE COMMAND) //
       
       // CALLING THE MOVE FUNCTION 
-      setInterval(this.moveSnake, this.state.speed)
+      
       // TESTING VOICE APP // 
       
       this.voiceCommand()
-      
+      setInterval(() => {
+        this.moveSnake()
+        
+      }, this.state.speed)
       document.onkeydown = this.onKeyDown;
-      
+
       
     }
 
@@ -50,7 +53,6 @@ class App extends Component {
       this.checkIfCollapsed()
 
      
-      
     }
 
     voiceCommand = () => {
@@ -131,6 +133,7 @@ class App extends Component {
     }
 
     moveSnake = () => {
+
       let parts = [...this.state.snakeBody]
       let head = parts[parts.length - 1]
       switch (this.state.direction){
@@ -153,6 +156,8 @@ class App extends Component {
           snakeBody : parts
         })
     }
+
+    
 
     gameOver = () => {
       alert('Game Over! The snake length is ' + this.state.snakeBody.length )
