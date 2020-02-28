@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react'
 import './App.css';
 import SnakeArea from './components/SnakeArea/SnakeArea';
@@ -17,7 +19,7 @@ const randomCoordinates = () => {
 const initialState = {
   food: randomCoordinates(),
   direction: 'RIGHT',
-  speed: 250,
+  speed: 150,
   snakeBody : [
     [0,0],
     [2,0],
@@ -47,13 +49,15 @@ class App extends Component {
       // CALLING FUNCTIONALITY THAT CHANGES STATE ON KEY PRESS (WILL CHANGE TO VOICE COMMAND) //
       
       // CALLING THE MOVE FUNCTION 
-      setInterval(this.moveSnake, this.state.speed)
+      
       // TESTING VOICE APP // 
       
       this.voiceCommand()
-      
+      setInterval(() => {
+        this.moveSnake()
+      }, this.state.speed)
       document.onkeydown = this.onKeyDown;
-      
+
       
     }
 
@@ -79,11 +83,11 @@ class App extends Component {
         
 
         console.log(transcript)
-        if(transcript.includes('right') || transcript.includes('bright') || transcript.includes('light') || transcript.includes('east')){
+        if(transcript.includes('right') || transcript.includes('bright') || transcript.includes('light') || transcript.includes('east') || transcript.includes('rate')){
           this.setState({
             direction: 'RIGHT'
           }) 
-        } else if (transcript.includes('left') || transcript.includes('west') || transcript.includes('theft') || transcript.includes('best')){
+        } else if (transcript.includes('left') || transcript.includes('west') || transcript.includes('theft') || transcript.includes('best') || transcript.includes('Gola')){
             this.setState({
               direction: 'LEFT'
             })
@@ -169,6 +173,7 @@ class App extends Component {
     }
 
     moveSnake = () => {
+
       let parts = [...this.state.snakeBody]
       let head = parts[parts.length - 1]
       switch (this.state.direction){
@@ -192,6 +197,8 @@ class App extends Component {
         })
     }
 
+    
+
     gameOver = () => {
       alert('Game Over! The snake length is ' + this.state.snakeBody.length )
       this.setState(initialState)
@@ -212,3 +219,4 @@ class App extends Component {
 
 
 export default App
+
