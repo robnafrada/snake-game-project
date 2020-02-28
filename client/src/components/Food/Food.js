@@ -1,13 +1,14 @@
 import React from 'react';
+import './Food.scss';
 
-const Food = (props) => {
+export default (props) => {
+
     const style = {
-        left:  `${props.dot[0]}%`,
-        top:   `${props.dot[1]}%`
+      left: `${props.food[0]}%`,
+      top: `${props.food[1]}%`
     }
-    return(
-        <div className="food" style={style}></div>
+  
+    return (
+      <div className="food" style={style}></div>
     )
-}
-
-export default Food; 
+  }

@@ -15,6 +15,7 @@ const randomCoordinates = () => {
 }
 
 const initialState = {
+  food: randomCoordinates(),
   direction: 'RIGHT',
   speed: 250,
   snakeBody : [
@@ -22,8 +23,6 @@ const initialState = {
     [2,0],
     [4,0],
   ],
-  // ADDED SNAKEFOOD DYNAMIC COORDINATES
-  snakeFood: randomCoordinates()
 }
 
 const SpeechRecogniton = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -61,9 +60,7 @@ class App extends Component {
     componentDidUpdate(){
       this.checkIfOutOfBounds()
       this.checkIfCollapsed()
-
-     
-      
+      this.checkIfEat()
     }
 
     voiceCommand = () => {
@@ -127,7 +124,30 @@ class App extends Component {
 
     checkIfEat() {
       let head = this.state.snakeBody[this.state.snakeBody.length-1];
-      let food = this.state.foodItem
+      let food = this.state.food;
+      if(head[0] == food[0] && head[1] == food[1]) {
+        this.setState({
+          food: randomCoordinates()
+        })
+        this.enlargeSnake();
+        this.increaseSpeed();
+      }
+    }
+
+    enlargeSnake() {
+      let newSnake = [...this.state.snakeBody];
+      newSnake.unshift([])
+      this.setState({
+        snakeBody: newSnake
+      })
+    }
+
+    increaseSpeed() {
+      if(this.state.speed > 10) {
+        this.setState({
+          speed: this.state.speed - 10
+        })
+      }
     }
   
 
@@ -183,12 +203,12 @@ class App extends Component {
         
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
+          <Food food={this.state.food}/>
         </SnakeArea>
-        <Food foodItem={this.state.foodItem}/>
       </div>
     )
   }
 }
-}
+
 
 export default App
