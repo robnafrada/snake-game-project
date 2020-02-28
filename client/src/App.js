@@ -1,16 +1,30 @@
+/*
+
 import React, { Component } from 'react'
 import './App.css';
 import SnakeArea from './components/SnakeArea/SnakeArea';
 import Snake from './components/Snake/Snake'
+import Food from './components/Food/Food';
+
+
+// FOOD COORDINATES
+const randomCoordinates = () => {
+  let min = 1;
+  let max = 98;
+  let x = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+  let y = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+  return [x, y];
+}
 
 const initialState = {
+  food: randomCoordinates(),
   direction: 'RIGHT',
   speed: 250,
   snakeBody : [
     [0,0],
     [2,0],
     [4,0],
-  ]
+  ],
 }
 
 const SpeechRecogniton = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -51,8 +65,7 @@ class App extends Component {
     componentDidUpdate(){
       this.checkIfOutOfBounds()
       this.checkIfCollapsed()
-
-     
+      this.checkIfEat()
     }
 
     voiceCommand = () => {
@@ -113,6 +126,34 @@ class App extends Component {
         }
       })
     }
+
+    checkIfEat() {
+      let head = this.state.snakeBody[this.state.snakeBody.length-1];
+      let food = this.state.food;
+      if(head[0] == food[0] && head[1] == food[1]) {
+        this.setState({
+          food: randomCoordinates()
+        })
+        this.enlargeSnake();
+        this.increaseSpeed();
+      }
+    }
+
+    enlargeSnake() {
+      let newSnake = [...this.state.snakeBody];
+      newSnake.unshift([])
+      this.setState({
+        snakeBody: newSnake
+      })
+    }
+
+    increaseSpeed() {
+      if(this.state.speed > 10) {
+        this.setState({
+          speed: this.state.speed - 10
+        })
+      }
+    }
   
 
     onKeyDown = (e) => {
@@ -170,6 +211,7 @@ class App extends Component {
         
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
+          <Food food={this.state.food}/>
         </SnakeArea>
       </div>
     )
@@ -177,4 +219,85 @@ class App extends Component {
 }
 
 
-export default App;
+export default App
+
+*/
+
+import React, {useState, useEffect} from 'react';
+import SnakeArea from './components/SnakeArea/SnakeArea';
+import Snake from './components/Snake/Snake'
+import Food from './components/Food/Food';
+
+ function App() {
+
+  const randomCoordinates = () => {
+    let min = 1;
+    let max = 98;
+    let x = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+    let y = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+    return [x, y];
+  }
+
+  // STATES //
+  const [food, setFood] = useState(randomCoordinates())
+  const [direction, setDirection] = useState('RIGHT')
+  const [speed, setSpeed] = useState(250)
+  const [snakeBody, setSnakeBody] = useState([[0,0],[2,0],[4,0]])
+
+  useEffect(() => {
+    console.log('Running code')
+  })
+
+  
+
+  const moveSnake = () => {
+    let parts = [...snakeBody]
+    let head = parts[parts.length - 1]
+    switch (direction){
+      case 'RIGHT':
+        head = [head[0] + 2, head[1]];
+        break;
+      case 'LEFT':
+        head = [head[0] - 2, head[1]];
+        break;
+      case 'DOWN':
+        head = [head[0], head[1] + 2];
+        break;
+      case 'UP':
+        head = [head[0], head[1] - 2];
+        break;
+    }
+      parts.push(head);
+      parts.shift()
+      setSnakeBody(parts)
+  }
+
+
+  setInterval(() => {
+    moveSnake()
+  }, speed)
+
+  const initialState = {
+    food: randomCoordinates(),
+    direction: 'RIGHT',
+    speed: 250,
+    snakeBody : [
+      [0,0],
+      [2,0],
+      [4,0],
+    ],
+  }
+  
+
+  return (
+    <div className="App">
+        <SnakeArea>
+          <Snake snakeBody = {snakeBody} />
+          <Food food={food}/>
+        </SnakeArea>
+      </div>
+  )
+}
+
+
+export default App
