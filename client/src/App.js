@@ -2,6 +2,17 @@ import React, { Component } from 'react'
 import './App.css';
 import SnakeArea from './components/SnakeArea/SnakeArea';
 import Snake from './components/Snake/Snake'
+import Food from './components/Food/Food';
+
+
+// FOOD COORDINATES
+const randomCoordinates = () => {
+  let min = 1;
+  let max = 98;
+  let x = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+  let y = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+  return [x, y];
+}
 
 const initialState = {
   direction: 'RIGHT',
@@ -10,7 +21,9 @@ const initialState = {
     [0,0],
     [2,0],
     [4,0],
-  ]
+  ],
+  // ADDED SNAKEFOOD DYNAMIC COORDINATES
+  snakeFood: randomCoordinates()
 }
 
 const SpeechRecogniton = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -104,6 +117,11 @@ class App extends Component {
         }
       })
     }
+
+    checkIfEat() {
+      let head = this.state.snakeBody[this.state.snakeBody.length-1];
+      let food = this.state.foodItem
+    }
   
 
     onKeyDown = (e) => {
@@ -158,6 +176,7 @@ class App extends Component {
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
         </SnakeArea>
+        <Food foodItem={this.state.foodItem}/>
       </div>
     )
   }
