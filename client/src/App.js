@@ -200,14 +200,16 @@ class App extends Component {
     
 
     gameOver = () => {
-      alert('Game Over! The snake length is ' + this.state.snakeBody.length )
+      console.log('Game Over!')
+      alert("Game Over!")
       this.setState(initialState)
     }
 
   render() {
     return (
       <div className="App">
-        
+        <h1 className="snake-title">THE SNAKE GAME</h1>
+        <p className="total-score">The snake length is {this.state.snakeBody.length}</p>
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
           <Food food={this.state.food}/>
