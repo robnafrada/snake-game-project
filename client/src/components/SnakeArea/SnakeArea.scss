@@ -1,9 +1,13 @@
+@import '../../mixins.scss';
+
 .SnakeArea {
     position: relative;
-    margin: 5rem auto;
+    margin: 15rem auto;
     width: 40rem;
     height: 40rem;
     border: 0.2rem solid rgba(0, 0, 0, 0.048);
+    border-radius: 1rem;
+    
 }
 
 .grass-landscape {
@@ -15,5 +19,6 @@
     left: -80px;
     z-index: -1;
 }
+
 
 
