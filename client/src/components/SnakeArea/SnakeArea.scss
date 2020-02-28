@@ -1,7 +1,19 @@
 .SnakeArea {
     position: relative;
     margin: 5rem auto;
-    width: 62rem;
-    height: 62rem;
-    border: 0.2rem solid black
+    width: 40rem;
+    height: 40rem;
+    border: 0.2rem solid rgba(0, 0, 0, 0.048);
 }
+
+.grass-landscape {
+    position: absolute;
+    margin: 5rem auto;
+    width: 56rem;
+    height: 58rem;
+    top: -135px;
+    left: -80px;
+    z-index: -1;
+}
+
+
