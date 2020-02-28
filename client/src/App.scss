@@ -1,0 +1,99 @@
+@import "./mixins.scss";
+
+.App {
+  text-align: center;
+  height: 100%;
+  position: relative;
+}
+
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+} */
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+
+.App-header {
+  background-color: #282c34;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* .App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+
+.App__logo-container {
+  position: absolute;
+  font-family: 'Roboto';
+  animation: hover 2s infinite alternate;
+  margin-left: 8rem;
+  top: -15%;
+}
+
+.App__name {
+  font-size: 5rem;
+  margin: 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.4rem;
+}
+
+.App__image {
+  width: 30rem;
+  margin-left: -1rem;
+  
+}
+
+.App__total-score {
+  font-size: 2rem;
+  letter-spacing: 0.15rem;
+  word-spacing: 0.1rem;
+  & span {
+    color: rgb(6, 73, 6);
+    font-weight: 700;
+  }
+}
+
+
+@keyframes hover {
+  0% {
+    margin-top: 1rem
+  }
+  100% {
+    margin-top: 0
+  }
+}
+
+
+@include width-1275px {
+  .App__name {
+    font-size: 4rem
+  }
+  .App__image{
+    width: 20rem
+  }
+
+  .App__logo-container {
+    margin-left: 5rem;
+  }
+}
+

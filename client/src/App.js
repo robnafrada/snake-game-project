@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react'
-import './App.css';
+import './App.scss';
 import SnakeArea from './components/SnakeArea/SnakeArea';
 import Snake from './components/Snake/Snake'
 import Food from './components/Food/Food';
@@ -19,7 +19,7 @@ const randomCoordinates = () => {
 const initialState = {
   food: randomCoordinates(),
   direction: 'RIGHT',
-  speed: 150,
+  speed: 250,
   snakeBody : [
     [0,0],
     [2,0],
@@ -201,15 +201,24 @@ class App extends Component {
 
     gameOver = () => {
       console.log('Game Over!')
-      alert("Game Over!")
+     // alert("Game Over!")
       this.setState(initialState)
     }
 
   render() {
     return (
       <div className="App">
-        <h1 className="snake-title">THE SNAKE GAME</h1>
-        <p className="total-score">The snake length is {this.state.snakeBody.length}</p>
+        <div className="App__logo-container">
+          <h1 className="App__name">Snake</h1>
+          <img 
+            src="https://cdn.clipart.email/cc45e851b9e5b925fe60191f64bfae35_snake-clipart-transparent-background-clipartxtras_1000-1000.png"
+            alt=""
+            className="App__image"
+            />
+          <h1 className="App__name">Game</h1>
+          <p className="App__total-score">The snake length is <span>{this.state.snakeBody.length}</span> </p>
+        </div>
+        
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
           <Food food={this.state.food}/>
