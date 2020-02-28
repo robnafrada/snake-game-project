@@ -15,15 +15,14 @@ const randomCoordinates = () => {
 }
 
 const initialState = {
+  food: randomCoordinates(),
   direction: 'RIGHT',
-  speed: 100,
+  speed: 250,
   snakeBody : [
     [0,0],
     [2,0],
     [4,0],
   ],
-  // ADDED SNAKEFOOD DYNAMIC COORDINATES
-  snakeFood: randomCoordinates()
 }
 
 const SpeechRecogniton = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -44,30 +43,34 @@ class App extends Component {
 
 
     componentDidMount(){
+      
       // CALLING FUNCTIONALITY THAT CHANGES STATE ON KEY PRESS (WILL CHANGE TO VOICE COMMAND) //
-      document.onkeydown = this.onKeyDown
+      
       // CALLING THE MOVE FUNCTION 
-      setInterval(this.moveSnake, 200)
+      setInterval(this.moveSnake, this.state.speed)
       // TESTING VOICE APP // 
+      
       this.voiceCommand()
+      
+      document.onkeydown = this.onKeyDown;
+      
+      
     }
 
     componentDidUpdate(){
       this.checkIfOutOfBounds()
       this.checkIfCollapsed()
+      this.checkIfEat()
     }
 
     voiceCommand = () => {
       recognition.onstart = () => {
-        console.log('Voice is active')
+        
       }
 
       recognition.onresult = (e) => {
 
         let current = e.resultIndex
-
-        //const transcript = e.result[current][0].transcript;
-
         
         let transcript = Array.from(e.results)
         .map(result => result[0])
@@ -88,10 +91,11 @@ class App extends Component {
           this.setState({
             direction: 'DOWN'
           })
-      } else if (transcript.includes('up') || transcript.includes('cup') || transcript.includes('sup') || transcript.includes('pup')){
-        this.setState({
-          direction: 'UP'
-        })
+        } else if (transcript.includes('up') || transcript.includes('sup') || transcript.includes('pup') || transcript.includes('cup') || transcript.includes('sup') || transcript.includes('pup') || transcript.includes('away') || transcript.includes('sup') || transcript.includes('pup') || transcript.includes('alright')){
+          this.setState({
+            direction: 'UP'
+          })
+        } 
       }
 
       recognition.onend = () => {
@@ -120,8 +124,30 @@ class App extends Component {
 
     checkIfEat() {
       let head = this.state.snakeBody[this.state.snakeBody.length-1];
-      let food = this.state.foodItem
-      if(head[0] == food[0] && head[1])
+      let food = this.state.food;
+      if(head[0] == food[0] && head[1] == food[1]) {
+        this.setState({
+          food: randomCoordinates()
+        })
+        this.enlargeSnake();
+        this.increaseSpeed();
+      }
+    }
+
+    enlargeSnake() {
+      let newSnake = [...this.state.snakeBody];
+      newSnake.unshift([])
+      this.setState({
+        snakeBody: newSnake
+      })
+    }
+
+    increaseSpeed() {
+      if(this.state.speed > 10) {
+        this.setState({
+          speed: this.state.speed - 10
+        })
+      }
     }
   
 
@@ -174,14 +200,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
+          <Food food={this.state.food}/>
         </SnakeArea>
-        <Food foodItem={this.state.foodItem}/>
       </div>
     )
   }
 }
 
 
-export default App;
+export default App
