@@ -183,12 +183,13 @@ class App extends Component {
         
         <SnakeArea>
           <Snake snakeBody = {this.state.snakeBody} />
+          <Food foodItem={this.state.snakeFood}/>
         </SnakeArea>
-        <Food foodItem={this.state.foodItem}/>
+        
       </div>
     )
   }
 }
-}
+
 
 export default App
