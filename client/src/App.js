@@ -13,6 +13,15 @@ const initialState = {
   ]
 }
 
+const SpeechRecogniton = window.SpeechRecognition || window.webkitSpeechRecognition
+
+const recognition = new SpeechRecogniton();
+
+recognition.start()
+
+
+
+
 class App extends Component {
 
   constructor(props){
@@ -26,12 +35,57 @@ class App extends Component {
       document.onkeydown = this.onKeyDown
       // CALLING THE MOVE FUNCTION 
       setInterval(this.moveSnake, 200)
+      // TESTING VOICE APP // 
+      this.voiceCommand()
     }
 
     componentDidUpdate(){
       this.checkIfOutOfBounds()
       this.checkIfCollapsed()
     }
+
+    voiceCommand = () => {
+      recognition.onstart = () => {
+        console.log('Voice is active')
+      }
+
+      recognition.onresult = (e) => {
+
+        let current = e.resultIndex
+
+        //const transcript = e.result[current][0].transcript;
+
+        
+        let transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join("")
+        
+
+        console.log(transcript)
+        if(transcript.includes('right') || transcript.includes('bright') || transcript.includes('light') || transcript.includes('east')){
+          this.setState({
+            direction: 'RIGHT'
+          }) 
+        } else if (transcript.includes('left') || transcript.includes('west') || transcript.includes('theft') || transcript.includes('best')){
+            this.setState({
+              direction: 'LEFT'
+            })
+        } else if (transcript.includes('down') || transcript.includes('drown') || transcript.includes('frown') || transcript.includes('sound')){
+          this.setState({
+            direction: 'DOWN'
+          })
+      } else if (transcript.includes('up') || transcript.includes('cup') || transcript.includes('sup') || transcript.includes('pup')){
+        this.setState({
+          direction: 'UP'
+        })
+      }
+
+      recognition.onend = () => {
+        recognition.start()
+      }
+    }
+
 
     checkIfOutOfBounds = () => {
       let head = this.state.snakeBody[this.state.snakeBody.length - 1];
