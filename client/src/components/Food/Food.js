@@ -9,6 +9,6 @@ export default (props) => {
     }
   
     return (
-      <div className="food" style={style}></div>
+      <div className="food" style={style}>🐀</div>
     )
   }
