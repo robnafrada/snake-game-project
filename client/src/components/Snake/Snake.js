@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import './Snake.scss'
+import './Snake.scss';
+import uuid from 'uuid';
 
 export default class Snake extends Component {
 
@@ -10,7 +11,7 @@ export default class Snake extends Component {
                 left: `${part[0]}%`,
                 top: `${part[1]}%`
             }
-            return <div className="Snake__part" style={style}/>
+            return <div className="Snake__part" style={style} key={uuid.v4()}/>
         })
     }
 
