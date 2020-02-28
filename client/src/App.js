@@ -121,6 +121,7 @@ class App extends Component {
     checkIfEat() {
       let head = this.state.snakeBody[this.state.snakeBody.length-1];
       let food = this.state.foodItem
+      if(head[0] == food[0] && head[1])
     }
   
 
