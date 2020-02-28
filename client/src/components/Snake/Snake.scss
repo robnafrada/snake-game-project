@@ -1,0 +1,13 @@
+.Snake {
+    
+
+    &__part {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    background-color: black;
+    border: 0.1rem solid white;
+    z-index: 2;
+    margin: 0.1rem;
+    }
+}
